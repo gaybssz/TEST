@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: invoicex-backend
+    env: python
+    plan: free # Or your desired plan
+    buildCommand: "pip install -r requirements.txt && alembic upgrade head"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: DATABASE_URL
+        generateValue: true # Render will provide a PostgreSQL DB
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
+      # Add other necessary environment variables here
+      - key: PYTHON_VERSION
+        value: 3.10.12 # Match the Python version used
+
